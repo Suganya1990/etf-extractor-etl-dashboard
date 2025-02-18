@@ -12,10 +12,12 @@ response = requests.get(ETF_URL)
 soup = bs(response.text)
 
 #Find div named holdings-table and extract table 
+
 holdings_data = soup.find('div', class_='holdings-table')
+lastUpdatedDate  = holdings_data.find('p', class_='update-date')
 
 holdings_table = holdings_data.find('table')
-
+print(lastUpdatedDate)
 
 #CONVERT TABLE INTO SQL FORMAT 
 
