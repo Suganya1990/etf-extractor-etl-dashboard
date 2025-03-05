@@ -13,3 +13,25 @@ Solution
     Insert into SQL Server
     Power BI will pull and present the data requested
     Script to analyze weekly data and  email users about changes 
+
+
+Psuedo Code 
+    Run ETF Scraper daily M-F at 9pm 
+    Scrape data from the following websites
+            https://sprottetfs.com/urnm-sprott-uranium-miners-etf, URNM
+            https://sprottetfs.com/urnj-sprott-junior-uranium-miners-etf, URNJ
+            https://sprottetfs.com/copp-sprott-copper-miners-etf, COPP
+            https://sprottetfs.com/copj-sprott-junior-copper-miners-etf, COPJ
+            https://sprottetfs.com/litp-sprott-lithium-miners-etf, LITP
+            https://sprottetfs.com/nikl-sprott-nickel-miners-etf, NIKL
+            https://sprottetfs.com/gbug-sprott-active-gold-silver-miners-etf, GBUG
+            https://sprottetfs.com/sgdm-sprott-gold-miners-etf, SGDM 
+            https://sprottetfs.com/sgdj-sprott-junior-gold-miners-etf, SGDJ
+            https://sprottetfs.com/slvr-sprott-silver-miners-physical-silver-etf, SLVR
+    Push on to server 
+    Grab the data from the server and load it onto Power BI 
+    Schedule a daily refresh on Power BI service 
+    
+Other Thigs To DO: 
+    Transfer existing data onto server 
+

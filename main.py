@@ -1,17 +1,18 @@
-import DataScraper as ds
+import DataScraperService as ds
 import PandaService as ps
 import SQLServerService as sql
-from ETFService import ETF_LIST
-import ETFService
+from ETFList import ETF_LIST
+from datetime import datetime
 
 def main(url, etf):
-
-    lastUpdateDate = sql.getDate()
+    #gets the most recent updated sql 
+    lastDateUpdatedSQL =sql.get_date(etf)
+    
     table= ds.get_table(url, "holdings-table")
     holdingsDate  = ds.get_date(url, "holdings-table")
-    
-    if(holdingsDate!=lastUpdateDate):
-    #convert Table into dataframe 
+    if(holdingsDate!=lastDateUpdatedSQL):
+        print("inside if statement")
+        #convert Table into dataframe 
         tableDFrame=ps.create_pd(table)
             
         #added date column
@@ -25,17 +26,14 @@ def main(url, etf):
         tableDFrame = ps.change_data_type(tableDFrame, "Date", "Date")
 
         #write to SQL 
-        
         sql.insert_into_table(tableDFrame)
-        sql.closeConnection()
 
-        #update lastUpdatedDate
-        ETFService.setDate(holdingsDate)
+  
    
 
 
 if __name__=="__main__":
-
+    
    for etf in ETF_LIST:
     url=etf[0]
     etf =etf[1]
