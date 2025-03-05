@@ -1,4 +1,3 @@
-import datetime
 ETF_LIST = [
     ["https://sprottetfs.com/urnm-sprott-uranium-miners-etf", "URNM"],
     ["https://sprottetfs.com/urnj-sprott-junior-uranium-miners-etf", "URNJ"],
@@ -11,11 +10,4 @@ ETF_LIST = [
     ["https://sprottetfs.com/sgdj-sprott-junior-gold-miners-etf", "SGDJ"], 
     ["https://sprottetfs.com/slvr-sprott-silver-miners-physical-silver-etf", "SLVR"]]
 
-lastUpdatedDate =datetime.date(2025, 2, 27)
-
-def getDate():
-    return lastUpdatedDate
-
-def setDate(date):
-    lastUpdatedDate = date
 

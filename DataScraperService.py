@@ -21,10 +21,10 @@ def get_date(url, divClass):
     #get div class= holdings-table
     div = soup.find('div', {'class':divClass})
     
-    #gets the everything in P Tag
+    #gets content in P Tag
     pTagString = div.find('p', {'class':'update-date'})
     
-    #finds just the date 
+    #Extracts date from string
     dateString = pTagString.text.strip().split("As of")[1].split()
 
     #converts dateString into Date Object 
