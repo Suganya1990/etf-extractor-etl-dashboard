@@ -32,10 +32,13 @@ def insert_into_sql(df):
 def main(fileDirectory):
     fileList = os.listdir(fileDirectory)
     for file in fileList:
-        df = read_file(file)
-        df = remove_white_space(df)
-        df = convert_data_types(df)
-        insert_into_sql(df)       
+        try:
+            df = read_file(file)
+            df = remove_white_space(df)
+            df = convert_data_types(df)
+            insert_into_sql(df)       
+        except:
+            print("Could not insert onto server: ", file)
 
 if __name__ == "__main__":
     main(sys.argv[1])

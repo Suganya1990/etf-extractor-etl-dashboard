@@ -44,15 +44,19 @@ def add_column(dataFrame, attributeName, value):
 
 
 def change_data_type(dataFrame, column, type):
-    if(type =="currency"):
-       dataFrame[column] = dataFrame[column].str.replace('[^.0-9]', '', regex=True).astype('float').astype(int)
-       return dataFrame
-    elif(type=="quantity"):
-        dataFrame[column] = dataFrame[column].str.replace('[\$\,]|\.\d*', '', regex=True).astype(int)
-        return dataFrame
-    elif(type=="percentage"):
-        dataFrame[column] = dataFrame[column].str.replace("%", '').astype(float)
-        return dataFrame
-    elif(type=="Date"):
-        dataFrame[column] = dataFrame[column].astype('datetime64[ns]')
+    try:
+        if(type =="currency"):
+            dataFrame[column] = dataFrame[column].str.replace('[^.0-9]', '', regex=True).astype('float').astype(int)
+            return dataFrame
+        elif(type=="quantity"):
+            dataFrame[column] = dataFrame[column].str.replace('[\$\,]|\.\d*', '', regex=True).astype(int)
+            return dataFrame
+        elif(type=="percentage"):
+            dataFrame[column] = dataFrame[column].str.replace("%", '').astype(float)
+            return dataFrame
+        elif(type=="Date"):
+            dataFrame[column] = dataFrame[column].astype('datetime64[ns]')
+            return dataFrame
+    except:
+        print("Error converting Data: ", column, type )
         return dataFrame
