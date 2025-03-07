@@ -1,11 +1,11 @@
 import pandas as pd 
-from pathlib import Path
-import glob
 import PandaService as ps
 import SQLServerService as sql
 import sys
 import os
 
+
+#SCRIPT WAS CREATED TO EXTRACT DATA FROM CSV FILE AND LOAD ONTO SQL SERVER 
 
 #Read CSV File 
 def read_file(filePath):
@@ -27,10 +27,13 @@ def convert_data_types(df):
 
 def insert_into_sql(df):
     sql.insert_into_table(df)
-    print("INSERTED INTO SERVER")
 
 def main(fileDirectory):
-    fileList = os.listdir(fileDirectory)
+    try:
+        fileList = os.listdir(fileDirectory)
+    except:
+        return print("PLEASE SPECIFY A DIRECTORY")
+    
     for file in fileList:
         try:
             df = read_file(file)
@@ -38,7 +41,7 @@ def main(fileDirectory):
             df = convert_data_types(df)
             insert_into_sql(df)       
         except:
-            print("Could not insert onto server: ", file)
+            print("COULD NOT INSERT INTO SERVER: ", file)
 
 if __name__ == "__main__":
     main(sys.argv[1])

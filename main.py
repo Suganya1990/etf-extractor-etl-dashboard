@@ -8,12 +8,11 @@ def main(url, etf):
     #gets the most recent updated sql 
     lastDateUpdatedSQL =sql.get_date(etf)
     
-    table= ds.get_table(url, "holdings-table")
-    holdingsDate  = ds.get_date(url, "holdings-table")
+    holdingsTable= ds.scrape_table(url, "holdings-table")
+    holdingsDate  = ds.scrape_date(url, "holdings-table")
     if(holdingsDate!=lastDateUpdatedSQL):
-        print("inside if statement")
         #convert Table into dataframe 
-        tableDFrame=ps.create_pd(table)
+        tableDFrame=ps.create_pd(holdingsTable)
             
         #added date column
         tableDFrame = ps.add_column(tableDFrame, "ETF", etf)
@@ -27,6 +26,8 @@ def main(url, etf):
 
         #write to SQL 
         sql.insert_into_table(tableDFrame)
+    else:
+       print("NO NEW DATA TO INSERT")
 
   
    
