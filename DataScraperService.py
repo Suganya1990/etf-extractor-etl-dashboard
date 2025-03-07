@@ -1,11 +1,9 @@
 import requests
-import pandas as pd
-import re
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-
-def get_table(url, divClass):
+#gets table inside of specified div from website 
+def scrape_table(url, divClass):
     data = requests.get(url).text
     soup = BeautifulSoup(data, 'html.parser')
 
@@ -14,7 +12,8 @@ def get_table(url, divClass):
     table = div.find('table')
     return table
 
-def get_date(url, divClass):
+#scrapes date inside of specified div from website 
+def scrape_date(url, divClass):
     data = requests.get(url).text
     soup = BeautifulSoup(data, 'html.parser')
 
