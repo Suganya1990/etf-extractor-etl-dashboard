@@ -1,8 +1,10 @@
 import requests
+import re
 from datetime import datetime
 from bs4 import BeautifulSoup
 
 #gets table inside of specified div from website 
+
 def scrape_table(url, divClass):
     data = requests.get(url).text
     soup = BeautifulSoup(data, 'html.parser')
@@ -31,3 +33,11 @@ def scrape_date(url, divClass):
     date_time_obj = datetime.strptime(dateString[0], date_format)
     date_obj = date_time_obj.date()
     return date_obj
+
+def get_funds():
+    data = requests.get("https://sprottetfs.com/urnm-sprott-uranium-miners-etf").text
+    soup = BeautifulSoup(data, 'html.parser')
+    div = soup.find('div', {'class':'fund-list-nav'})
+    fund_list= [["https://sprottetfs.com"+i['href'], i.text] for i in div.find_all('a', href=True)]
+    return fund_list
+ 

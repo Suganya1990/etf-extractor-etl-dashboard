@@ -33,9 +33,9 @@ def main(url, etf):
    
 
 
-if __name__=="__main__":
+
     
-   for etf in ETF_LIST:
-    url=etf[0]
-    etf =etf[1]
-    main(url, etf)
+for etf in ds.get_funds():
+   url=etf[0]
+   etf =etf[1]
+   main(url, etf)

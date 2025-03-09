@@ -28,9 +28,11 @@ def get_date(etf):
     sql = """\
     EXEC GetLastUpdateDate @ETF=?
     """
-    cursor.execute(sql, etf)
-    result = cursor.fetchone()
-    cnxn.close()
-    return  datetime.strptime(result[0], '%Y-%m-%d').date()
-    
+    try:
+        cursor.execute(sql, etf)
+        result = cursor.fetchone()
+        cnxn.close()
+        return datetime.strptime(result[0], '%Y-%m-%d').date()
+    except:
+        return 
 
