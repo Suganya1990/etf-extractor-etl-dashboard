@@ -24,7 +24,6 @@ def get_table_rows(table):
              #use reuglar td tags
             for td in tds:
                 cells.append(td.text.strip())
-
         rows.append(cells)
     return rows
 

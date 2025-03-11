@@ -1,8 +1,7 @@
 import DataScraperService as ds
 import PandaService as ps
 import SQLServerService as sql
-from ETFList import ETF_LIST
-from datetime import datetime
+
 
 def main(url, etf):
     #gets the most recent updated sql 
@@ -33,9 +32,9 @@ def main(url, etf):
    
 
 
-
+if __name__=="__main__":
     
-for etf in ds.get_funds():
-   url=etf[0]
-   etf =etf[1]
-   main(url, etf)
+   for etf in ds.get_funds():
+    url=etf[0]
+    etf =etf[1]
+    main(url, etf)
