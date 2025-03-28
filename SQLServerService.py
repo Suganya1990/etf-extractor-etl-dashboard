@@ -13,7 +13,7 @@ def insert_into_table( pd):
     try:
         for index, row in df.iterrows():
             cursor.execute("INSERT INTO Holdings(security_str, market_val_int, symbol_str, sedol_str, quantity_int, weight_float, etf_str , update_dt) values(?,?,?,?,?,?,?,?)", row.Security, row.MarketValue, row.Symbol, row.SEDOL, row.Quantity, row.Weight, row.ETF, row.Date)
-        print("INSERTED INTO DATABASE")
+
         cnxn.commit()
         cnxn.close()
     except:
