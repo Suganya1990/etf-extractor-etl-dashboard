@@ -25,9 +25,9 @@ def main(url, etf):
 
         #write to SQL 
         sql.insert_into_table(tableDFrame)
-        print("INSERTED INTO DATABASE " + holdingsDate)
+        print("INSERTED INTO DATABASE ", holdingsDate, etf)
     else:
-       print("NO NEW DATA TO INSERT on" + holdingsDate )
+       print("NO NEW DATA TO INSERT on", holdingsDate, etf )
 
   
    

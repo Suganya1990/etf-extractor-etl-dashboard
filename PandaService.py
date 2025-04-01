@@ -1,10 +1,12 @@
 import pandas as pd
 
 def get_table_headers(table):
+
     """Given a tabe soup, returns all the headers"""
     headers = []
     for th in table.find("tr").find_all("th"):
         headers.append(th.text.replace(" ", ""))
+
     return headers    
 
 def get_table_rows(table):
@@ -29,6 +31,7 @@ def get_table_rows(table):
 
 
 def create_pd(table):
+ 
     headers = get_table_headers(table)
     rows = get_table_rows(table)
     dataFrame =  pd.DataFrame(rows, columns=headers)

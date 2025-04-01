@@ -1,17 +1,15 @@
 import requests
-import re
 from datetime import datetime
 from bs4 import BeautifulSoup
 
 #gets table inside of specified div from website 
-
 def scrape_table(url, divClass):
     data = requests.get(url).text
     soup = BeautifulSoup(data, 'html.parser')
 
     #get div class= holdings-table
-    div = soup.find('div', {'class':divClass})
-    table = div.find('table')
+    section = soup.find('section', {'id':'secHoldings'})
+    table = section.find('table')
     return table
 
 #scrapes date inside of specified div from website 
@@ -20,10 +18,10 @@ def scrape_date(url, divClass):
     soup = BeautifulSoup(data, 'html.parser')
 
     #get div class= holdings-table
-    div = soup.find('div', {'class':divClass})
+    section = soup.find('section', {'id':'secHoldings'})
     
     #gets content in P Tag
-    pTagString = div.find('p', {'class':'update-date'})
+    pTagString = section.find('p')
     
     #Extracts date from string
     dateString = pTagString.text.strip().split("As of")[1].split()
