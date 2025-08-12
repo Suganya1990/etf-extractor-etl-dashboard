@@ -27,15 +27,20 @@ def insert_into_table(df: pd.DataFrame):
 
 def get_date(etf):
     cnxn = pyodbc.connect(r'Driver=SQL Server;Server=.\SQLEXPRESS;Database=ETFHoldings;Trusted_Connection=yes;')
-    cursor = cnxn.cursor()
-    sql = """\
-    EXEC GetLastUpdateDate @ETF=?
-    """
     try:
-        cursor.execute(sql, etf)
-        result = cursor.fetchone()
+        with cnxn.cursor() as cur:
+            cur.execute("EXEC GetLastUpdateDate @ETF=?", etf)
+            row = cur.fetchone()
+        if not row or row[0] is None:
+            return None   
+        val = row[0]
+        if isinstance(val, (datetime, )):
+            return val.date()
+        # else assume string
+        return datetime.strptime(str(val), '%Y-%m-%d').date()
+    except Exception as e:
+        print("get_date failed: ", e)
+        return None
+    finally:
         cnxn.close()
-        return datetime.strptime(result[0], '%Y-%m-%d').date()
-    except:
-        return 
 
