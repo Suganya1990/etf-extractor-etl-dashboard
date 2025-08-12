@@ -2,25 +2,28 @@ import pandas as pd
 import pyodbc 
 from datetime import datetime
 
-#create connection
-
-
-def insert_into_table( pd):
+#bulk insert of 
+def insert_into_table(df: pd.DataFrame):
     cnxn = pyodbc.connect(r'Driver=SQL Server;Server=.\SQLEXPRESS;Database=ETFHoldings;Trusted_Connection=yes;')
-    cursor = cnxn.cursor()
-    
-    df = pd
     try:
-        for index, row in df.iterrows():
-            cursor.execute("INSERT INTO Holdings(security_str, market_val_int, symbol_str, sedol_str, quantity_int, weight_float, etf_str , update_dt) values(?,?,?,?,?,?,?,?)", row.Security, row.MarketValue, row.Symbol, row.SEDOL, row.Quantity, row.Weight, row.ETF, row.Date)
+        tuples = list(df[["Security","MarketValue","Symbol","SEDOL","Quantity","Weight","ETF","Date"]]
+                      .itertuples(index=False, name=None))
+        with cnxn.cursor() as cur:
+            cur.fast_executemany = True
+            cur.executemany("""
+                INSERT INTO Holdings(
+                    security_str, market_val_int, symbol_str, sedol_str,
+                    quantity_int, weight_float, etf_str, update_dt
+                ) VALUES (?,?,?,?,?,?,?,?)
+            """, tuples)
+        cnxn.commit()
+    except Exception as e:
+        cnxn.rollback()
+        print("UNABLE TO INSERT INTO DATABASE:", e)
+        raise
+    finally:
+        cnxn.close()
 
-        cnxn.commit()
-        cnxn.close()
-    except:
-        print( "UNABLE TO INSERT INTO DATABASE")
-        cnxn.commit()
-        cnxn.close()
-        
 
 def get_date(etf):
     cnxn = pyodbc.connect(r'Driver=SQL Server;Server=.\SQLEXPRESS;Database=ETFHoldings;Trusted_Connection=yes;')
