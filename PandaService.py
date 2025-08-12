@@ -44,21 +44,31 @@ def add_column(dataFrame, attributeName, value):
         df = dataFrame.assign(Date = value)
     return df
 
-
-def change_data_type(dataFrame, column, type):
+def change_data_type(df, column, kind):
     try:
-        if(type =="currency"):
-            dataFrame[column] = dataFrame[column].str.replace('[^.0-9]', '', regex=True).astype('float').astype(int)
-            return dataFrame
-        elif(type=="quantity"):
-            dataFrame[column] = dataFrame[column].str.replace('[\$\,]|\.\d*', '', regex=True).astype(int)
-            return dataFrame
-        elif(type=="percentage"):
-            dataFrame[column] = dataFrame[column].str.replace("%", '').astype(float)
-            return dataFrame
-        elif(type=="Date"):
-            dataFrame[column] = dataFrame[column].astype('datetime64[ns]')
-            return dataFrame
-    except:
-        print("Error converting Data: ", column, type )
-        return dataFrame
+        if kind == "currency":
+            # keep decimals
+            df[column] = (df[column]
+                          .str.replace('[^0-9.\-]', '', regex=True)
+                          .astype(float))
+        elif kind == "quantity":
+            df[column] = (df[column]
+                          .str.replace('[^0-9.\-]', '', regex=True)
+                          .astype(float))  # or int if truly integral
+        elif kind == "percentage":
+            df[column] = df[column].str.replace("%", "", regex=False).astype(float)
+        elif kind == "Date":
+            df[column] = pd.to_datetime(df[column], errors="coerce").dt.date
+        return df
+    except Exception as e:
+        print("Error converting Data:", column, kind, e)
+        return df
+    
+
+def convert_data_types(df):
+    df = change_data_type(df, "MarketValue", "currency")
+    df = change_data_type(df, "Quantity", "quantity")
+    df = change_data_type(df, "Weight", "percentage")
+    df = change_data_type(df, "Date", "Date")
+    # Replace NaN with None without blowing up datetime/date objects
+    return df.where(pd.notnull(df), None)
