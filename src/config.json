@@ -1,0 +1,44 @@
+{
+  "etl": {
+    "csv_dir": "C:\\\\path\\\\to\\\\csvs", 
+    "nan_to_null": true
+  },
+  "database": {
+    "table": "dbo.Holdings",
+    "staging_table": "dbo.Holdings_Staging",
+    "use_staging": false
+  },
+  "mapping": {
+    "df_to_db": {
+      "Security": "security_str",
+      "MarketValue": "market_val_int",
+      "Symbol": "symbol_str",
+      "SEDOL": "sedol_str",
+      "Quantity": "quantity_int",
+      "Weight": "weight_float",
+      "ETF": "etf_str",
+      "Date": "update_dt"
+    },
+    "required_columns": ["Security", "MarketValue", "Symbol", "SEDOL", "Quantity", "Weight", "ETF", "Date"]
+  },
+  "types": {
+    "MarketValue": "currency",
+    "Quantity": "quantity",
+    "Weight": "percentage",
+    "Date": "date"
+  },
+  "regex": {
+    "currency": "[^0-9.\\-]",
+    "quantity": "[^0-9.\\-]",
+    "percentage_sign": "%"
+  },
+  "scrape": {
+    "funds_start_url": "https://sprottetfs.com/urnm-sprott-uranium-miners-etf",
+    "fund_list_selector": "div.fund-list-nav a",
+    "holdings_table_selector": "section#secHoldings table",
+    "date_selector": "section#secHoldings p",
+    "date_prefix": "As of",
+    "date_format": "%m/%d/%Y"
+  }
+}
+git reset --hard HEAD 

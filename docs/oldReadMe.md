@@ -1,14 +1,3 @@
-# ETF Holdings ETL
-
-ETL pipeline to ingest ETF holdings data (from CSVs or scraped HTML tables) into SQL Server. Built with **Python**, **pandas**, **pyodbc**, and **BeautifulSoup**.
-
----
-
-## Overview
-
-- **Extract**: Read CSV files from a folder, or scrape holdings + dates from ETF web pages.
-- **Transform**: Clean headers, normalize types (currency, quantity, percentage, dates).
-- **Load**: Bulk-insert into SQL Server table `Holdings` in database `ETFHoldings`.
 
 Core modules:
 
